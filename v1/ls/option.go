@@ -7,8 +7,9 @@
 package ls
 
 import (
-	"github.com/guojia99/go-linux-commands/utils"
 	"github.com/spf13/cobra"
+
+	"github.com/guojia99/go-linux-commands/utils"
 )
 
 // Usage: ls [OPTION]... [FILE]...
@@ -16,33 +17,20 @@ import (
 //or available locally via: info '(coreutils) ls invocation'
 
 type Option struct {
-	LanguageHelp string `long:"language_help"` // help 按语言输出
-
 	// All 所有文件
-	All              bool   `long:"all" short:"a"`
-	AlmostAll        bool   `long:"almost-all" short:"A"`     // 所有文件, 但是不列出 `.` 和 `..`
-	Author           bool   `long:"author"`                   // -l 时生效, 额外打印出作者
-	Escape           bool   `long:"escape" short:"b"`         // 为非图形字符打印 C 风格转义符
-	BlockSize        int    `long:"block-size"`               // 在输出一个文件大小前, 按
-	IgnoreBackups    int    `long:"ignore-backups" short:"B"` // 不打印 `~` 结尾的数据
-	CTime            bool   `short:"c"`                       // 使用 `-lt` 时可依据ctime去做排序
-	Columns          bool   `short:"C"`                       // 将文件和目录按照列的方式排列，尽可能地利用终端的宽度来显示，而不会自动换行
-	Color            string `long:"color"`                    // 颜色输出, 依据 `echo $LS_COLORS` 可获取默认的参数, 可选`auto`, `never`, `always`
-	Directory        bool   `long:"directory" short:"d"`      // 如果指定的目标是个目录, 则只显示该目录, 而不会递归显示出来, 且优先级最高, 不受递归影响
-	ForwardSort      bool   `short:"f"`                       // 不排序, 并且启用 -aU, 禁用 -ls
-	Classify         bool   `long:"classify" short:"F"`       // 显示文件类型, 用`*/=>@|` 等套接到文件后面 /：表示目录。 *：表示可执行文件。 @：表示符号链接。 |：表示命名管道。 =：表示套接字。
-	ClassifyFileType bool   `long:"file-type"`                // Classify 类似, 但是不会显示出 *
-
-	//Format
-	//verbose：以详细格式显示文件和目录，类似于 long，但会包括更多信息。
-	//commas：以逗号分隔的方式显示文件和目录。
-	//horizontal：以水平格式显示文件和目录。
-	//across：以横向格式显示文件和目录。
-	//vertical：以纵向格式显示文件和目录。
-	//single-column：以单列方式显示文件和目录。
-	//with-escape：以转义字符的形式显示文件和目录。
-	//slash：在目录名后添加斜杠 /。
-	//none：不使用任何格式化选项，使用默认的输出格式。
+	All                    bool   `long:"all" short:"a"`
+	AlmostAll              bool   `long:"almost-all" short:"A"`         // 所有文件, 但是不列出 `.` 和 `..`
+	Author                 bool   `long:"author"`                       // -l 时生效, 额外打印出作者
+	Escape                 bool   `long:"escape" short:"b"`             // 为非图形字符打印 C 风格转义符
+	BlockSize              int    `long:"block-size"`                   // 在输出一个文件大小前, 按
+	IgnoreBackups          int    `long:"ignore-backups" short:"B"`     // 不打印 `~` 结尾的数据
+	CTime                  bool   `short:"c"`                           // 使用 `-lt` 时可依据ctime去做排序
+	Columns                bool   `short:"C"`                           // 将文件和目录按照列的方式排列，尽可能地利用终端的宽度来显示，而不会自动换行
+	Color                  string `long:"color"`                        // 颜色输出, 依据 `echo $LS_COLORS` 可获取默认的参数, 可选`auto`, `never`, `always`
+	Directory              bool   `long:"directory" short:"d"`          // 如果指定的目标是个目录, 则只显示该目录, 而不会递归显示出来, 且优先级最高, 不受递归影响
+	ForwardSort            bool   `short:"f"`                           // 不排序, 并且启用 -aU, 禁用 -ls
+	Classify               bool   `long:"classify" short:"F"`           // 显示文件类型, 用`*/=>@|` 等套接到文件后面 /：表示目录。 *：表示可执行文件。 @：表示符号链接。 |：表示命名管道。 =：表示套接字。
+	ClassifyFileType       bool   `long:"file-type"`                    // Classify 类似, 但是不会显示出 *
 	Format                 string `long:"format"`                       // long：以长格式（详细信息）显示文件和目录。
 	FullTime               string `long:"full-time"`                    // 格式化时间输出
 	GrepNotOwnerNameOutput string `short:"g"`                           // 使能 -l, 并且不输出文件拥有者
@@ -104,24 +92,23 @@ func (o *Option) SetFlags(cmd *cobra.Command, usageDict map[string]string) {
 	utils.SetCmdTemp(cmd)
 	f := cmd.Flags()
 
-	f.StringVar(&o.LanguageHelp, "language_help", "", usageDict["LanguageHelp"])
 	f.BoolVarP(&o.All, "all", "a", false, usageDict["All"])
 	f.BoolVarP(&o.AlmostAll, "almost-all", "A", false, usageDict["AlmostAll"])
 	f.BoolVar(&o.Author, "author", false, usageDict["Author"])
 	f.BoolVarP(&o.Escape, "escape", "b", false, usageDict["Escape"])
 	f.IntVar(&o.BlockSize, "block-size", 0, usageDict["BlockSize"])
 	f.IntVarP(&o.IgnoreBackups, "ignore-backups", "B", 0, usageDict["IgnoreBackups"])
-	f.BoolVarP(&o.CTime, "XXX_hideFile_CTime", "c", false, usageDict["CTime"])
-	f.BoolVarP(&o.Columns, "XXX_hideFile_Columns", "C", false, usageDict["Columns"])
+	f.BoolVarP(&o.CTime, "c_CTime_XXX_hide", "c", false, usageDict["CTime"])
+	f.BoolVarP(&o.Columns, "c_Columns_XXX_hide", "C", false, usageDict["Columns"])
 	f.StringVar(&o.Color, "color", "", usageDict["Color"])
 	f.BoolVarP(&o.Directory, "directory", "d", false, usageDict["Directory"])
-	f.BoolVarP(&o.ForwardSort, "XXX_hideFile_ForwardSort", "f", false, usageDict["ForwardSort"])
+	f.BoolVarP(&o.ForwardSort, "f_ForwardSort_XXX_hide", "f", false, usageDict["ForwardSort"])
 	f.BoolVarP(&o.Classify, "classify", "F", false, usageDict["Classify"])
 	f.BoolVar(&o.ClassifyFileType, "file-type", false, usageDict["ClassifyFileType"])
 	f.StringVar(&o.Format, "format", "", usageDict["Format"])
 	f.StringVar(&o.FullTime, "full-time", "", usageDict["FullTime"])
-	f.StringVarP(&o.GrepNotOwnerNameOutput, "XXX_hideFile_GrepNotOwnerNameOutput", "g", "", usageDict["GrepNotOwnerNameOutput"])
-	f.StringVarP(&o.GrepNotGroupNameOutput, "XXX_hideFile_GrepNotGroupNameOutput", "G", "", usageDict["GrepNotGroupNameOutput"])
+	f.StringVarP(&o.GrepNotOwnerNameOutput, "g_GrepNotOwnerNameOutput_XXX_hide", "g", "", usageDict["GrepNotOwnerNameOutput"])
+	f.StringVarP(&o.GrepNotGroupNameOutput, "g_GrepNotGroupNameOutput_XXX_hide", "G", "", usageDict["GrepNotGroupNameOutput"])
 	f.BoolVar(&o.GroupDirectoriesFirst, "group-directories-first", false, usageDict["GroupDirectoriesFirst"])
 	f.BoolVarP(&o.HumanReadable, "human-readable", "h", false, usageDict["HumanReadable"])
 	f.BoolVar(&o.HumanReadableSize1000, "si", false, usageDict["HumanReadableSize1000"])
@@ -130,12 +117,12 @@ func (o *Option) SetFlags(cmd *cobra.Command, usageDict map[string]string) {
 	f.BoolVarP(&o.Inode, "inode", "i", false, usageDict["Inode"])
 	f.StringVarP(&o.Ignore, "ignore", "I", "", usageDict["Ignore"])
 	f.BoolVarP(&o.KibIBytes, "kibibytes", "k", false, usageDict["KibIBytes"])
-	f.BoolVarP(&o.List, "XXX_hideFile_List", "l", false, usageDict["List"])
+	f.BoolVarP(&o.List, "l_List_XXX_hide", "l", false, usageDict["List"])
 	f.BoolVarP(&o.LinkDereference, "dereference", "L", false, usageDict["LinkDereference"])
-	f.BoolVarP(&o.MCommaFull, "XXX_hideFile_MCommaFull", "m", false, usageDict["MCommaFull"])
+	f.BoolVarP(&o.MCommaFull, "m_MCommaFull_XXX_hide", "m", false, usageDict["MCommaFull"])
 	f.BoolVarP(&o.NumericUidGid, "numeric-uid-gid", "n", false, usageDict["NumericUidGid"])
 	f.BoolVarP(&o.NameOrgLiteral, "literal", "N", false, usageDict["NameOrgLiteral"])
-	f.BoolVarP(&o.NotGroup, "XXX_hideFile_NotGroup", "o", false, usageDict["NotGroup"])
+	f.BoolVarP(&o.NotGroup, "o_NotGroup_XXX_hide", "o", false, usageDict["NotGroup"])
 	f.BoolVarP(&o.HideControlChars, "hide-control-chars", "q", false, usageDict["HideControlChars"])
 	f.BoolVar(&o.ShowControlChars, "show-control-chars", false, usageDict["ShowControlChars"])
 	f.BoolVarP(&o.QuoteName, "quote-name", "Q", false, usageDict["QuoteName"])
@@ -143,17 +130,16 @@ func (o *Option) SetFlags(cmd *cobra.Command, usageDict map[string]string) {
 	f.BoolVarP(&o.Reverse, "reverse", "r", false, usageDict["Reverse"])
 	f.BoolVarP(&o.Recursive, "recursive", "R", false, usageDict["Recursive"])
 	f.IntVarP(&o.Size, "size", "s", 0, usageDict["Size"])
-	f.BoolVarP(&o.SizeSort, "XXX_hideFile_SizeSort", "S", false, usageDict["SizeSort"])
+	f.BoolVarP(&o.SizeSort, "s_SizeSort_XXX_hide", "S", false, usageDict["SizeSort"])
 	f.StringVar(&o.Sort, "sort", "", usageDict["Sort"])
 	f.StringVar(&o.Time, "time", "", usageDict["Time"])
 	f.StringVar(&o.TimeStyle, "time-style", "", usageDict["TimeStyle"])
-	f.BoolVarP(&o.TimeSort, "XXX_hideFile_TimeSort", "t", false, usageDict["TimeSort"])
-	f.BoolVarP(&o.TimeSortUse, "XXX_hideFile_TimeSortUse", "u", false, usageDict["TimeSortUse"])
-	f.BoolVarP(&o.SortNotUse, "XXX_hideFile_SortNotUse", "U", false, usageDict["SortNotUse"])
-	f.BoolVarP(&o.VersionSort, "XXX_hideFile_VersionSort", "v", false, usageDict["VersionSort"])
-	f.BoolVarP(&o.ListOutput, "XXX_hideFile_ListOutput", "x", false, usageDict["ListOutput"])
-	f.BoolVarP(&o.ExtensionSort, "XXX_hideFile_ExtensionSort", "X", false, usageDict["ExtensionSort"])
+	f.BoolVarP(&o.TimeSort, "t_TimeSort_XXX_hide", "t", false, usageDict["TimeSort"])
+	f.BoolVarP(&o.TimeSortUse, "u_TimeSortUse_XXX_hide", "u", false, usageDict["TimeSortUse"])
+	f.BoolVarP(&o.SortNotUse, "u_SortNotUse_XXX_hide", "U", false, usageDict["SortNotUse"])
+	f.BoolVarP(&o.VersionSort, "v_VersionSort_XXX_hide", "v", false, usageDict["VersionSort"])
+	f.BoolVarP(&o.ListOutput, "x_ListOutput_XXX_hide", "x", false, usageDict["ListOutput"])
+	f.BoolVarP(&o.ExtensionSort, "x_ExtensionSort_XXX_hide", "X", false, usageDict["ExtensionSort"])
 	f.BoolVarP(&o.Context, "context", "Z", false, usageDict["Context"])
-	f.BoolVarP(&o.One, "XXX_hideFile_One", "1", false, usageDict["One"])
-
+	f.BoolVarP(&o.One, "1_One_XXX_hide", "1", false, usageDict["One"])
 }

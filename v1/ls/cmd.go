@@ -8,6 +8,7 @@ package ls
 
 import (
 	"fmt"
+	"github.com/guojia99/go-linux-commands/v1/ls/helper"
 	"github.com/spf13/cobra"
 )
 
@@ -20,6 +21,6 @@ func NewLsCmd() *cobra.Command {
 			fmt.Printf("%+v", opt)
 		},
 	}
-	opt.SetFlags(cmd, map[string]string{})
+	opt.SetFlags(cmd, helper.ZN)
 	return cmd
 }
